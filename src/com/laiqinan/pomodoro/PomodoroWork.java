@@ -189,7 +189,6 @@ public class PomodoroWork {
 	}
 
 	public int getMaxProductionRate() {
-		// TODO Auto-generated method stub
 		Date current = dateProvider.getDate();
 		long endOfWork = DateUtils.getStart(current).getTime()+hourToLong(19);
 		long diff = endOfWork - current.getTime();
