@@ -208,10 +208,6 @@ public class PomodoroWorkTest {
 		assertEquals(3,p.getMaxProductionRate());
 	}
 	
-	@Test
-	public void testNew() throws Exception{
-		fail("not implemented");
-	}
 
 	//you can have a large break
 	//you should not have a break
