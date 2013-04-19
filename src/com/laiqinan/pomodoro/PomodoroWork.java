@@ -43,6 +43,7 @@ public class PomodoroWork {
 		this.rest = rest;
 	}
 
+	
 	public PomodoroWork(String fileName) {
 		file = new File(fileName);
 		read();
@@ -198,6 +199,11 @@ public class PomodoroWork {
 	
 	private long hourToLong(int hour){
 		return hour*60*60*1000;
+	}
+
+	public int getRandom() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

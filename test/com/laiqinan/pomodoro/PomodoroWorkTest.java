@@ -208,6 +208,18 @@ public class PomodoroWorkTest {
 		assertEquals(3,p.getMaxProductionRate());
 	}
 	
+	@Test
+	public void testRandomLegal() throws Exception{
+		final int start = 2;
+		final int end = 11;
+		String cmd = "random "+start+" "+end;
+		for (int i=0; i<100; i++){
+			pomodoro.execute(cmd);
+			assertTrue(pomodoro.getRandom()>=start);
+			assertTrue(pomodoro.getRandom()<=end);
+		}
+		
+	}
 
 	//you can have a large break
 	//you should not have a break
