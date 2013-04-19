@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.laiqinan.util.DateUtils;
@@ -43,6 +44,7 @@ public class PomodoroWork {
 		this.rest = rest;
 	}
 
+	private int random=0;
 	
 	public PomodoroWork(String fileName) {
 		file = new File(fileName);
@@ -111,11 +113,20 @@ public class PomodoroWork {
 			rest += nr;
 		}else if (verb.equals("-")||verb.equals("print")){
 			
+		}else if (verb.equals("random")){
+			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
 		}
 		else {
 			throw new RuntimeException("Undefined Pomodoro command");
 		}
 		write();
+	}
+	
+	
+
+	private int genRandom(int start, int end) {
+		Random rand = new Random();
+		return rand.nextInt(end-start+1) + start;
 	}
 
 	public void execute(String string) {
@@ -203,7 +214,7 @@ public class PomodoroWork {
 
 	public int getRandom() {
 		// TODO Auto-generated method stub
-		return 0;
+		return random;
 	}
 
 }

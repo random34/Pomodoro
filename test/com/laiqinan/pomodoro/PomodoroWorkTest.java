@@ -213,11 +213,19 @@ public class PomodoroWorkTest {
 		final int start = 2;
 		final int end = 11;
 		String cmd = "random "+start+" "+end;
-		for (int i=0; i<100; i++){
+		boolean hasStart = false;
+		boolean hasEnd = false;
+		for (int i=0; i<1000; i++){
 			pomodoro.execute(cmd);
 			assertTrue(pomodoro.getRandom()>=start);
 			assertTrue(pomodoro.getRandom()<=end);
+			if (pomodoro.getRandom()==start)
+				hasStart = true;
+			if (pomodoro.getRandom()==end)
+				hasEnd = true;
 		}
+		assertTrue(hasStart);
+		assertTrue(hasEnd);
 		
 	}
 
