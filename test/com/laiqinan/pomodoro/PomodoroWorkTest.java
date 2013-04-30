@@ -145,19 +145,53 @@ public class PomodoroWorkTest {
 	}
 	
 	@Test
-	public void testIllegalArguments() throws Exception {
+	public void testIllegalAddArguments() throws Exception {
 		try {
 			pomodoro.execute("add");
 			fail("Didnot throw exception");
 		} catch (Exception e) {
 			assertTrue(e instanceof IllegalArgumentException);
 		}
+	}
+	
+	@Test
+	public void testIllegalRestArguments() throws Exception {
+		try {
+			pomodoro.execute("rest 1 2 3 4");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalTimeArguments() throws Exception {
+		try {
+			pomodoro.execute("time 4 3");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalRandomArguments() throws Exception{
+		try {
+			pomodoro.execute("random 4");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalTypeArguments() throws Exception{
 		try {
 			pomodoro.execute("add abc");
 			fail("Didnot throw exception");
 		} catch (Exception e) {
 			assertTrue(e instanceof IllegalArgumentException);
-		}
+		}		
 	}
 	
 	@Test
@@ -209,10 +243,32 @@ public class PomodoroWorkTest {
 	}
 	
 	@Test
-	public void testNew() throws Exception{
-		fail("not implemented");
+	public void testRandomLegal() throws Exception{
+		final int start = 2;
+		final int end = 11;
+		String cmd = "random "+start+" "+end;
+		boolean hasStart = false;
+		boolean hasEnd = false;
+		for (int i=0; i<1000; i++){
+			pomodoro.execute(cmd);
+			assertTrue(pomodoro.getRandom()>=start);
+			assertTrue(pomodoro.getRandom()<=end);
+			if (pomodoro.getRandom()==start)
+				hasStart = true;
+			if (pomodoro.getRandom()==end)
+				hasEnd = true;
+		}
+		assertTrue(hasStart);
+		assertTrue(hasEnd);
+		
 	}
-
+	
+	@Test
+	public void testArriveCheckin() throws Exception {
+		PomodoroWork p = createPomodoroByParseDate("2013-05-01 10:00:00", "save.txt");
+		p.execute("start");
+		assertTrue("10:00:00".equals(p.getArriveTimeString()));
+	}
 	//you can have a large break
 	//you should not have a break
 	//max possible production rate

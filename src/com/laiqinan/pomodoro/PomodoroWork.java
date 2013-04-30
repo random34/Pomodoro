@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.laiqinan.util.DateUtils;
@@ -43,6 +44,8 @@ public class PomodoroWork {
 		this.rest = rest;
 	}
 
+	private int random=0;
+	
 	public PomodoroWork(String fileName) {
 		file = new File(fileName);
 		read();
@@ -100,21 +103,39 @@ public class PomodoroWork {
 		String verb = parameters[0];
 		
 		if (verb.equals("time")){
+			checkArgumentsSize(parameters, 2, "time need one argument");
 			int addTime = Integer.parseInt(parameters[1]);
 			time+=addTime;
 		}else if (verb.equals("add")){
+			checkArgumentsSize(parameters, 2, "add need one argument");
 			int addTomato = Integer.parseInt(parameters[1]);
 			time+=addTomato*25; 
 		}else if (verb.equals("rest")){
+			checkArgumentsSize(parameters, 2, "rest need one argument");
 			int nr = Integer.parseInt(parameters[1]);
 			rest += nr;
 		}else if (verb.equals("-")||verb.equals("print")){
 			
+		}else if (verb.equals("random")){
+			checkArgumentsSize(parameters, 3, "random need one argument");
+			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
 		}
 		else {
 			throw new RuntimeException("Undefined Pomodoro command");
 		}
 		write();
+	}
+	
+	private void checkArgumentsSize(String [] parameters, int size, String message){
+		if (parameters.length!=size){
+			throw new IllegalArgumentException(message);
+		}
+	}
+	
+
+	private int genRandom(int start, int end) {
+		Random rand = new Random();
+		return rand.nextInt(end-start+1) + start;
 	}
 
 	public void execute(String string) {
@@ -198,6 +219,11 @@ public class PomodoroWork {
 	
 	private long hourToLong(int hour){
 		return hour*60*60*1000;
+	}
+
+	public int getRandom() {
+		// TODO Auto-generated method stub
+		return random;
 	}
 
 }
