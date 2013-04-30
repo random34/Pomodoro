@@ -145,19 +145,53 @@ public class PomodoroWorkTest {
 	}
 	
 	@Test
-	public void testIllegalArguments() throws Exception {
+	public void testIllegalAddArguments() throws Exception {
 		try {
 			pomodoro.execute("add");
 			fail("Didnot throw exception");
 		} catch (Exception e) {
 			assertTrue(e instanceof IllegalArgumentException);
 		}
+	}
+	
+	@Test
+	public void testIllegalRestArguments() throws Exception {
+		try {
+			pomodoro.execute("rest 1 2 3 4");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalTimeArguments() throws Exception {
+		try {
+			pomodoro.execute("time 4 3");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalRandomArguments() throws Exception{
+		try {
+			pomodoro.execute("random 4");
+			fail("Didnot throw exception");
+		} catch (Exception e) {
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+	}
+	
+	@Test
+	public void testIllegalTypeArguments() throws Exception{
 		try {
 			pomodoro.execute("add abc");
 			fail("Didnot throw exception");
 		} catch (Exception e) {
 			assertTrue(e instanceof IllegalArgumentException);
-		}
+		}		
 	}
 	
 	@Test
