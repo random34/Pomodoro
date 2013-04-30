@@ -103,29 +103,21 @@ public class PomodoroWork {
 		String verb = parameters[0];
 		
 		if (verb.equals("time")){
-			if (parameters.length!=2){
-				throw new IllegalArgumentException("time need one argument");
-			}
+			checkArgumentsSize(parameters, 2, "time need one argument");
 			int addTime = Integer.parseInt(parameters[1]);
 			time+=addTime;
 		}else if (verb.equals("add")){
-			if (parameters.length!=2){
-				throw new IllegalArgumentException("add need one argument");
-			}
+			checkArgumentsSize(parameters, 2, "add need one argument");
 			int addTomato = Integer.parseInt(parameters[1]);
 			time+=addTomato*25; 
 		}else if (verb.equals("rest")){
-			if (parameters.length!=2){
-				throw new IllegalArgumentException("rest need one argument");
-			}			
+			checkArgumentsSize(parameters, 2, "rest need one argument");
 			int nr = Integer.parseInt(parameters[1]);
 			rest += nr;
 		}else if (verb.equals("-")||verb.equals("print")){
 			
 		}else if (verb.equals("random")){
-			if (parameters.length!=3){
-				throw new IllegalArgumentException("random need one argument");
-			}
+			checkArgumentsSize(parameters, 3, "random need one argument");
 			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
 		}
 		else {
@@ -134,6 +126,11 @@ public class PomodoroWork {
 		write();
 	}
 	
+	private void checkArgumentsSize(String [] parameters, int size, String message){
+		if (parameters.length!=size){
+			throw new IllegalArgumentException(message);
+		}
+	}
 	
 
 	private int genRandom(int start, int end) {
