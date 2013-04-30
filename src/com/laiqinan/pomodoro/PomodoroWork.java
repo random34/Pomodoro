@@ -226,4 +226,9 @@ public class PomodoroWork {
 		return random;
 	}
 
+	public String getArriveTimeString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
