@@ -57,6 +57,9 @@ public class PomodoroWork {
 		read();
 	}
 
+	private String arriveDateString;
+	
+	
 	private void write(){
 		try {
 			PrintWriter pw = new PrintWriter(file.getName());
@@ -119,6 +122,8 @@ public class PomodoroWork {
 		}else if (verb.equals("random")){
 			checkArgumentsSize(parameters, 3, "random need one argument");
 			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
+		}else if (verb.equals("start")){
+			arriveDateString = new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate());
 		}
 		else {
 			throw new RuntimeException("Undefined Pomodoro command");
@@ -222,13 +227,11 @@ public class PomodoroWork {
 	}
 
 	public int getRandom() {
-		// TODO Auto-generated method stub
 		return random;
 	}
 
 	public String getArriveTimeString() {
-		// TODO Auto-generated method stub
-		return null;
+		return arriveDateString;
 	}
 
 }

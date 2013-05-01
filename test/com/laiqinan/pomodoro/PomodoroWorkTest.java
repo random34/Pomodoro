@@ -265,10 +265,16 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testArriveCheckin() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-05-01 10:00:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", "save.txt");
 		p.execute("start");
-		assertTrue("10:00:00".equals(p.getArriveTimeString()));
+		assertTrue("2013-04-01 10:00:00".equals(p.getArriveTimeString()));
 	}
+	
+//	@Test
+//	public void testArriveCheckinSave() throws Exception {
+//		
+//	}
+	
 	//you can have a large break
 	//you should not have a break
 	//max possible production rate
