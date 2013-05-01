@@ -57,16 +57,17 @@ public class PomodoroWork {
 		read();
 	}
 
-	private String arriveDateString;
+	private String arriveDateString="";
 	
 	
 	private void write(){
 		try {
 			PrintWriter pw = new PrintWriter(file.getName());
-			pw.println(new SimpleDateFormat(DATE_FORMAT).format(new Date()));
+			pw.println(new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
 			pw.println(getTomato());
 			pw.println(getLeftTime());
 			pw.println(getRest());
+			pw.println(arriveDateString);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -86,6 +87,8 @@ public class PomodoroWork {
 				int leftTime = scanner.nextInt();
 				rest = scanner.nextInt();
 				time = tomato*25+leftTime;
+				scanner.nextLine();
+				arriveDateString = scanner.nextLine();
 			}else{
 				rest = 0;
 				time = 0;
@@ -123,7 +126,12 @@ public class PomodoroWork {
 			checkArgumentsSize(parameters, 3, "random need one argument");
 			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
 		}else if (verb.equals("start")){
-			arriveDateString = new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate());
+			if (parameters.length==1)
+				arriveDateString = new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate());
+			else if (parameters.length==2)
+				arriveDateString = parameters[1];
+			else
+				throw new IllegalArgumentException("start need one or zero argument");
 		}
 		else {
 			throw new RuntimeException("Undefined Pomodoro command");
@@ -158,6 +166,7 @@ public class PomodoroWork {
 		System.out.println("left time:\t"+getLeftTime());
 		System.out.println("rest :\t\t"+getRest());
 		System.out.println("current production rate: \t"+getProductionScore());
+		System.out.println("arrive time: "+arriveDateString);
 		if (hasLargeBreak())
 			System.out.println("Good, you can have a break!!!!!");
 		else

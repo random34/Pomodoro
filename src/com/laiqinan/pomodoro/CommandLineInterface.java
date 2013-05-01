@@ -23,6 +23,7 @@ public class CommandLineInterface {
 				pw.println(0);
 				pw.println(0);
 				pw.println(0);
+				pw.println("no arrive date");
 				pw.close();
 				System.out.println("new file created.");
 			} catch (FileNotFoundException e) {

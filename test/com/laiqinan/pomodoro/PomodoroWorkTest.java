@@ -270,10 +270,19 @@ public class PomodoroWorkTest {
 		assertTrue("2013-04-01 10:00:00".equals(p.getArriveTimeString()));
 	}
 	
-//	@Test
-//	public void testArriveCheckinSave() throws Exception {
-//		
-//	}
+	@Test
+	public void testArriveCheckinSave() throws Exception {
+		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", "save.txt");
+		p.execute("start");
+		PomodoroWork pp = createPomodoroByParseDate("2013-04-01 12:00:00", "save.txt");
+		assertTrue("2013-04-01 10:00:00".equals(pp.getArriveTimeString()));
+	}
+	
+	@Test
+	public void testArriveCheckinCustomData() throws Exception {
+		pomodoro.execute("start 08:00:00");
+		assertTrue(pomodoro.getArriveTimeString().equals("08:00:00"));
+	}
 	
 	//you can have a large break
 	//you should not have a break
