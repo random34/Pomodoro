@@ -93,8 +93,6 @@ public class PomodoroWork {
 				rest = 0;
 				time = 0;
 			}
-
-			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
@@ -111,11 +109,11 @@ public class PomodoroWork {
 		if (verb.equals("time")){
 			checkArgumentsSize(parameters, 2, "time need one argument");
 			int addTime = Integer.parseInt(parameters[1]);
-			time+=addTime;
+			time += addTime;
 		}else if (verb.equals("add")){
 			checkArgumentsSize(parameters, 2, "add need one argument");
 			int addTomato = Integer.parseInt(parameters[1]);
-			time+=addTomato*25; 
+			time += addTomato*25; 
 		}else if (verb.equals("rest")){
 			checkArgumentsSize(parameters, 2, "rest need one argument");
 			int nr = Integer.parseInt(parameters[1]);
@@ -225,6 +223,7 @@ public class PomodoroWork {
 
 	public int getMaxProductionRate() {
 		Date current = dateProvider.getDate();
+		// endOfWork = the start of the day (0:00:00)+ 19 hours (so I left 19:00). 
 		long endOfWork = DateUtils.getStart(current).getTime()+hourToLong(19);
 		long diff = endOfWork - current.getTime();
 		int tomato = getTomato()+(int)diff/1000/60/30;
