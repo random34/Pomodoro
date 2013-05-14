@@ -1,12 +1,16 @@
 package com.laiqinan.pomodoro;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -54,11 +58,31 @@ public class PomodoroWork {
 	public PomodoroWork(String string, DateProvider dp) {
 		this.dateProvider = dp;
 		file = new File(string);
+		if (! file.exists()){
+			createNewPropertyFile(string);
+		}
+		
 		read();
 	}
 
 	private String arriveDateString="";
 	
+	public void createNewPropertyFile(String fileName){
+		Properties prop = new Properties();
+		prop.setProperty("time", "0");
+		prop.setProperty("arriveTime","NOT BEEN SET");
+		prop.setProperty("lastSaveTime",
+				//TODO refactor
+				new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
+		try {
+			prop.store(new FileOutputStream(fileName), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	private void write(){
 		try {
@@ -75,6 +99,28 @@ public class PomodoroWork {
 	}
 	
 	private void read() {
+		if (file.getName().endsWith(".txt"))
+			readFromTxt();
+		else if (file.getName().endsWith(".properties"))
+			readFromProperties();
+	}
+	
+	private void readFromProperties() {
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream(file));
+			time = Integer.parseInt(prop.getProperty("time", "0"));
+			arriveDateString = prop.getProperty("arriveTime");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void readFromTxt(){
 		Scanner scanner=null;
 		try {
 			scanner = new Scanner(file);

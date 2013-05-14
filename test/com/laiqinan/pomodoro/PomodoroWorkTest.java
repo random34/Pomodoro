@@ -2,9 +2,15 @@ package com.laiqinan.pomodoro;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -282,6 +288,57 @@ public class PomodoroWorkTest {
 	public void testArriveCheckinCustomData() throws Exception {
 		pomodoro.execute("start 08:00:00");
 		assertTrue(pomodoro.getArriveTimeString().equals("08:00:00"));
+	}
+	
+	@Test
+	public void testPropertyFile() throws Exception {
+		final String fileName = "pomodoro-data/testWrite.properties";
+		final String attributeName = "attributes1";
+		final String attributeValue = "001";
+		Properties prop = new Properties();
+		prop.setProperty(attributeName, attributeValue);
+		prop.store(new FileOutputStream(fileName), null);
+		
+		Properties prop2 = new Properties();
+		prop2.load(new FileInputStream(fileName));
+		final String readAttribute = prop2.getProperty(attributeName);
+		assertEquals(readAttribute, attributeValue);
+	}
+	
+	@Test
+	public void testEmptyProperty() throws Exception {
+		
+		final String fileName = "pomodoro-data/testWrite.properties";
+		Properties prop2 = new Properties();
+		prop2.load(new FileInputStream(fileName));
+		final String readAttribute = prop2.getProperty("does not exits");
+		assertEquals(readAttribute,null);
+	}
+	
+	@Test
+	public void testCreateNewPropertyFile() throws Exception {
+		final String fileName = "pomodoro-data/newSave.properties";
+		File file = new File(fileName);
+		if (file.exists())
+			file.delete();
+		final String timeString = "2013-04-01 10:00:00";
+		PomodoroWork p = createPomodoroByParseDate(timeString, fileName);
+		p.execute("time 0");
+		Properties prop = new Properties();
+		prop.load(new FileInputStream(fileName));
+		assertEquals(prop.getProperty("time"), "0");
+		assertEquals(prop.getProperty("arriveTime"),"NOT BEEN SET");
+		assertEquals(prop.getProperty("lastSaveTime"), timeString);
+	}
+	
+	@Test
+	public void testLoadPropertyFile()throws Exception{
+		final String fileName = "pomodoro-data/testFileRead.properties";
+		final String timeString = "2013-04-01 10:00:00";
+		PomodoroWork p = createPomodoroByParseDate(timeString, fileName);
+		assertEquals(p.getTime(),51);
+		assertEquals(p.getArriveTimeString(),"arriveTime");
+		
 	}
 	
 	//you can have a large break
