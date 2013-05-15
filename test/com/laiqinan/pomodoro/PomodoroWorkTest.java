@@ -20,7 +20,9 @@ public class PomodoroWorkTest {
 	
 	@Before
 	public void setUp(){
-		pomodoro = new PomodoroWork("save.txt");
+//		pomodoro = new PomodoroWork("save.txt");
+		//TODO use @parameter
+		pomodoro = new PomodoroWork("pomodoro-data/save.properties");
 	}
 
 	@Test
@@ -115,7 +117,8 @@ public class PomodoroWorkTest {
 		int t = pomodoro.getTime();
 		int r = pomodoro.getRest();
 		pomodoro.execute("add 1");
-		PomodoroWork npw = new PomodoroWork("save.txt");
+		//TODO refactory
+		PomodoroWork npw = new PomodoroWork("pomodoro-data/save.properties");
 		int nt = npw.getTime();
 		int nr = npw.getRest();
 		assertTrue(nt-t==25);
@@ -340,6 +343,7 @@ public class PomodoroWorkTest {
 		assertEquals(p.getArriveTimeString(),"arriveTime");
 		
 	}
+	
 	
 	//you can have a large break
 	//you should not have a break

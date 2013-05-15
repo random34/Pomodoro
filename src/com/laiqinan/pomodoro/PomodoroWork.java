@@ -51,20 +51,24 @@ public class PomodoroWork {
 	private int random=0;
 	
 	public PomodoroWork(String fileName) {
-		file = new File(fileName);
-		read();
+		DateProvider dp = new DateProvider();
+		dp.setProvideCurrentDate(true);
+		initialise(fileName,dp);
 	}
 
 	public PomodoroWork(String string, DateProvider dp) {
+		initialise(string,dp);
+	}
+
+	private void initialise(String string, DateProvider dp){
 		this.dateProvider = dp;
 		file = new File(string);
 		if (! file.exists()){
 			createNewPropertyFile(string);
 		}
-		
 		read();
 	}
-
+	
 	private String arriveDateString="";
 	
 	public void createNewPropertyFile(String fileName){
@@ -85,6 +89,27 @@ public class PomodoroWork {
 	}
 	
 	private void write(){
+		if (file.getName().endsWith(".txt"))
+			writeToTxt();
+		else if (file.getName().endsWith(".properties"))
+			writeToProperties();
+	}
+	
+	private void writeToProperties() {
+		Properties prop = new Properties();
+		prop.setProperty("time", String.valueOf(time));
+		prop.setProperty("arriveTime", arriveDateString);
+		prop.setProperty("lastSaveTime", 
+				new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
+		try{
+			prop.store(new FileOutputStream(file), null);
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void writeToTxt(){
 		try {
 			PrintWriter pw = new PrintWriter(file.getName());
 			pw.println(new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));

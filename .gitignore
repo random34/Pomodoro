@@ -1,3 +1,4 @@
 .settings
 bin
 save.txt
+pomodoro-data/save.properties
