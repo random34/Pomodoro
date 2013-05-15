@@ -16,13 +16,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PomodoroWorkTest {
+	private static final String SAVE_FILE_NAME = "pomodoro-data/save.properties";
 	private PomodoroWork pomodoro;
 	
 	@Before
 	public void setUp(){
 //		pomodoro = new PomodoroWork("save.txt");
 		//TODO use @parameter
-		pomodoro = new PomodoroWork("pomodoro-data/save.properties");
+		pomodoro = new PomodoroWork(SAVE_FILE_NAME);
 	}
 
 	@Test
@@ -117,8 +118,7 @@ public class PomodoroWorkTest {
 		int t = pomodoro.getTime();
 		int r = pomodoro.getRest();
 		pomodoro.execute("add 1");
-		//TODO refactory
-		PomodoroWork npw = new PomodoroWork("pomodoro-data/save.properties");
+		PomodoroWork npw = new PomodoroWork(SAVE_FILE_NAME);
 		int nt = npw.getTime();
 		int nr = npw.getRest();
 		assertTrue(nt-t==25);

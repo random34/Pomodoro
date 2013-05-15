@@ -18,6 +18,18 @@ import com.laiqinan.util.DateUtils;
 
 public class PomodoroWork {
 	
+	private static final String PROPERTIES = ".properties";
+
+	private static final String TXT = ".txt";
+
+	private static final String LAST_SAVE_TIME = "lastSaveTime";
+
+	private static final String NOT_BEEN_SET = "NOT BEEN SET";
+
+	private static final String ARRIVE_TIME = "arriveTime";
+
+	private static final String TIME_STRING = "time";
+
 	public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
 
 	File file;
@@ -73,11 +85,9 @@ public class PomodoroWork {
 	
 	public void createNewPropertyFile(String fileName){
 		Properties prop = new Properties();
-		prop.setProperty("time", "0");
-		prop.setProperty("arriveTime","NOT BEEN SET");
-		prop.setProperty("lastSaveTime",
-				//TODO refactor
-				new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
+		prop.setProperty(TIME_STRING, "0");
+		prop.setProperty(ARRIVE_TIME,NOT_BEEN_SET);
+		prop.setProperty(LAST_SAVE_TIME,formatDateProvider());
 		try {
 			prop.store(new FileOutputStream(fileName), null);
 		} catch (FileNotFoundException e) {
@@ -88,19 +98,22 @@ public class PomodoroWork {
 		
 	}
 	
+	private String formatDateProvider(){
+		return new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate());
+	}
+	
 	private void write(){
-		if (file.getName().endsWith(".txt"))
+		if (file.getName().endsWith(TXT))
 			writeToTxt();
-		else if (file.getName().endsWith(".properties"))
+		else if (file.getName().endsWith(PROPERTIES))
 			writeToProperties();
 	}
 	
 	private void writeToProperties() {
 		Properties prop = new Properties();
-		prop.setProperty("time", String.valueOf(time));
-		prop.setProperty("arriveTime", arriveDateString);
-		prop.setProperty("lastSaveTime", 
-				new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
+		prop.setProperty(TIME_STRING, String.valueOf(time));
+		prop.setProperty(ARRIVE_TIME, arriveDateString);
+		prop.setProperty(LAST_SAVE_TIME, formatDateProvider());
 		try{
 			prop.store(new FileOutputStream(file), null);
 		}catch (IOException e){
@@ -112,7 +125,7 @@ public class PomodoroWork {
 	private void writeToTxt(){
 		try {
 			PrintWriter pw = new PrintWriter(file.getName());
-			pw.println(new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate()));
+			pw.println(formatDateProvider());
 			pw.println(getTomato());
 			pw.println(getLeftTime());
 			pw.println(getRest());
@@ -124,9 +137,9 @@ public class PomodoroWork {
 	}
 	
 	private void read() {
-		if (file.getName().endsWith(".txt"))
+		if (file.getName().endsWith(TXT))
 			readFromTxt();
-		else if (file.getName().endsWith(".properties"))
+		else if (file.getName().endsWith(PROPERTIES))
 			readFromProperties();
 	}
 	
@@ -134,13 +147,11 @@ public class PomodoroWork {
 		Properties prop = new Properties();
 		try {
 			prop.load(new FileInputStream(file));
-			time = Integer.parseInt(prop.getProperty("time", "0"));
-			arriveDateString = prop.getProperty("arriveTime");
+			time = Integer.parseInt(prop.getProperty(TIME_STRING, "0"));
+			arriveDateString = prop.getProperty(ARRIVE_TIME);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -177,7 +188,7 @@ public class PomodoroWork {
 		
 		String verb = parameters[0];
 		
-		if (verb.equals("time")){
+		if (verb.equals(TIME_STRING)){
 			checkArgumentsSize(parameters, 2, "time need one argument");
 			int addTime = Integer.parseInt(parameters[1]);
 			time += addTime;
@@ -196,7 +207,7 @@ public class PomodoroWork {
 			random = genRandom(Integer.parseInt(parameters[1]),Integer.parseInt(parameters[2]));
 		}else if (verb.equals("start")){
 			if (parameters.length==1)
-				arriveDateString = new SimpleDateFormat(DATE_FORMAT).format(dateProvider.getDate());
+				arriveDateString = formatDateProvider();
 			else if (parameters.length==2)
 				arriveDateString = parameters[1];
 			else
