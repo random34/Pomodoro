@@ -8,29 +8,31 @@ import java.util.Date;
 
 public class CommandLineInterface {
 
+	private static final String FILE_NAME = "pomodoro-data/save.properties";
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		File file = new File("save.txt");
-		if (!file.exists()) {
-			PrintWriter pw;
-			try {
-				pw = new PrintWriter(file);
-				pw.println(new SimpleDateFormat(PomodoroWork.DATE_FORMAT)
-						.format(new Date()));
-				pw.println(0);
-				pw.println(0);
-				pw.println(0);
-				pw.println("no arrive date");
-				pw.close();
-				System.out.println("new file created.");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+//		File file = new File(FILE_NAME);
+//		if (!file.exists()) {
+//			PrintWriter pw;
+//			try {
+//				pw = new PrintWriter(file);
+//				pw.println(new SimpleDateFormat(PomodoroWork.DATE_FORMAT)
+//						.format(new Date()));
+//				pw.println(0);
+//				pw.println(0);
+//				pw.println(0);
+//				pw.println("no arrive date");
+//				pw.close();
+//				System.out.println("new file created.");
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
-		PomodoroWork po = new PomodoroWork(file.getName());
+		PomodoroWork po = new PomodoroWork(FILE_NAME);
 		po.execute(args);
 		if (args[0].equals("random")) {
 			System.out.println("Generated random number:  " + po.getRandom());

@@ -16,14 +16,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PomodoroWorkTest {
-	private static final String SAVE_FILE_NAME = "pomodoro-data/save.properties";
+	private static final String DEFAULT_SAVE_FILE_NAME = "pomodoro-data/save.properties";
 	private PomodoroWork pomodoro;
 	
 	@Before
 	public void setUp(){
 //		pomodoro = new PomodoroWork("save.txt");
 		//TODO use @parameter
-		pomodoro = new PomodoroWork(SAVE_FILE_NAME);
+		pomodoro = new PomodoroWork(DEFAULT_SAVE_FILE_NAME);
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class PomodoroWorkTest {
 		int t = pomodoro.getTime();
 		int r = pomodoro.getRest();
 		pomodoro.execute("add 1");
-		PomodoroWork npw = new PomodoroWork(SAVE_FILE_NAME);
+		PomodoroWork npw = new PomodoroWork(DEFAULT_SAVE_FILE_NAME);
 		int nt = npw.getTime();
 		int nr = npw.getRest();
 		assertTrue(nt-t==25);
@@ -205,14 +205,14 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testEstimateRestMorningStart() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-03-13 10:00:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-03-13 10:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(0);
 		assertEquals(p.getEstimateRest(),0);
 	}
 
 	@Test
 	public void testEstimateRest1130() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-03-13 11:30:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-03-13 11:30:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(75);
 		assertEquals(p.getEstimateRest(),30);
 		p.setTime(50);
@@ -221,19 +221,19 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testHasLargeBreakMorning() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-03-13 11:30:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-03-13 11:30:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(75);
 		assertTrue(p.hasLargeBreak());
 		p.setTime(50);
 		assertFalse(p.hasLargeBreak());
-		p = createPomodoroByParseDate("2013-03-13 13:00:00", "save.txt");
+		p = createPomodoroByParseDate("2013-03-13 13:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(125);
 		assertFalse(p.hasLargeBreak());
 	}
 	
 	@Test
 	public void testHasLargeBreakAfternoon() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-03-13 15:30:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-03-13 15:30:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(200);
 		assertTrue(p.hasLargeBreak());
 		p.setTime(175);
@@ -242,7 +242,7 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testMaxProductionRate() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-03-13 17:00:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-03-13 17:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.setTime(200);
 		assertEquals(4,p.getMaxProductionRate());
 		p.setTime(225);
@@ -274,16 +274,16 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testArriveCheckin() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.execute("start");
 		assertTrue("2013-04-01 10:00:00".equals(p.getArriveTimeString()));
 	}
 	
 	@Test
 	public void testArriveCheckinSave() throws Exception {
-		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", "save.txt");
+		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.execute("start");
-		PomodoroWork pp = createPomodoroByParseDate("2013-04-01 12:00:00", "save.txt");
+		PomodoroWork pp = createPomodoroByParseDate("2013-04-01 12:00:00", DEFAULT_SAVE_FILE_NAME);
 		assertTrue("2013-04-01 10:00:00".equals(pp.getArriveTimeString()));
 	}
 	
