@@ -127,7 +127,7 @@ public class PomodoroWorkTest {
 	
 	@Test
 	public void testNewDayRollback() throws Exception {
-		PomodoroWork yesterday = new PomodoroWork("save_yesterday.txt");
+		PomodoroWork yesterday = new PomodoroWork("pomodoro-data/save_yesterday.properties");
 		assertTrue(yesterday.getTime()==0);
 		assertTrue(yesterday.getRest()==0);
 	}
