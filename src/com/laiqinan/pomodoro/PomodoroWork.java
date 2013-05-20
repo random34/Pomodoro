@@ -206,25 +206,25 @@ public class PomodoroWork {
 
 		String verb = parameters[0];
 
-		if (verb.equals(TIME_STRING)) {
+		if (isTimeCommand(verb)) {
 			checkArgumentsSize(parameters, 2, "time need one argument");
 			int addTime = Integer.parseInt(parameters[1]);
 			time += addTime;
-		} else if (verb.equals("add")) {
+		} else if (isAddCommand(verb)) {
 			checkArgumentsSize(parameters, 2, "add need one argument");
 			int addTomato = Integer.parseInt(parameters[1]);
 			time += addTomato * 25;
-		} else if (verb.equals("rest")) {
+		} else if (isRestCommand(verb)) {
 			checkArgumentsSize(parameters, 2, "rest need one argument");
 			int nr = Integer.parseInt(parameters[1]);
 			rest += nr;
 		} else if (verb.equals("-") || verb.equals("print")) {
 
-		} else if (verb.equals("random")) {
+		} else if (isRandomCommand(verb)) {
 			checkArgumentsSize(parameters, 3, "random need one argument");
 			random = genRandom(Integer.parseInt(parameters[1]),
 					Integer.parseInt(parameters[2]));
-		} else if (verb.equals("start")) {
+		} else if (isStartCommand(verb)) {
 			if (parameters.length == 1)
 				arriveDateString = formatDateProvider();
 			else if (parameters.length == 2)
@@ -236,6 +236,26 @@ public class PomodoroWork {
 			throw new RuntimeException("Undefined Pomodoro command");
 		}
 		write();
+	}
+
+	private boolean isStartCommand(String verb) {
+		return verb.equals("start");
+	}
+
+	private boolean isRandomCommand(String verb) {
+		return verb.equals("random");
+	}
+
+	private boolean isRestCommand(String verb) {
+		return verb.equals("rest");
+	}
+
+	private boolean isAddCommand(String verb) {
+		return verb.equals("add");
+	}
+
+	private boolean isTimeCommand(String verb) {
+		return verb.equals(TIME_STRING);
 	}
 
 	private void checkArgumentsSize(String[] parameters, int size,
