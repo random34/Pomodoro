@@ -69,6 +69,21 @@ public class PomodoroWorkTest {
 	} 
 	
 	@Test
+	//TODO refactor
+	public void testTimeShortHand(){
+		String [] parameters = {"t","10"};
+		int tomato = pomodoro.getTomato();
+		int leftTime = pomodoro.getLeftTime();
+		int time = pomodoro.getTime();
+		
+		pomodoro.execute(parameters);
+		int newTomato = pomodoro.getTomato();
+		int newLeftTime = pomodoro.getLeftTime();
+		int newTime = pomodoro.getTime();
+		assertEquals(time+10,newTime);
+		assertEquals(tomato*25+leftTime+10,newTomato*25+newLeftTime);
+	} 
+	@Test
 	public void testAdd(){
 		String [] parameters = {"add","3"};
 		int tomato = pomodoro.getTomato();
@@ -83,6 +98,21 @@ public class PomodoroWorkTest {
 		assertTrue(nT-time==75);
 	}
 	
+	@Test
+	//TODO refactor
+	public void testAddShortHand(){
+		String [] parameters = {"a","3"};
+		int tomato = pomodoro.getTomato();
+		int leftTime = pomodoro.getLeftTime();
+		int time = pomodoro.getTime();
+		pomodoro.execute(parameters);
+		int newTo = pomodoro.getTomato();
+		int nL = pomodoro.getLeftTime();
+		int nT = pomodoro.getTime();
+		assertTrue(newTo-tomato==3);
+		assertEquals(leftTime,nL);
+		assertTrue(nT-time==75);
+	}
 	@Test 
 	public void testRest(){
 		String [] parameters = {"rest","25"};
@@ -273,12 +303,40 @@ public class PomodoroWorkTest {
 	}
 	
 	@Test
+	//TODO refactor
+	public void testRandomLegalShortHand() throws Exception{
+		final int start = 2;
+		final int end = 11;
+		String cmd = "r "+start+" "+end;
+		boolean hasStart = false;
+		boolean hasEnd = false;
+		for (int i=0; i<1000; i++){
+			pomodoro.execute(cmd);
+			assertTrue(pomodoro.getRandom()>=start);
+			assertTrue(pomodoro.getRandom()<=end);
+			if (pomodoro.getRandom()==start)
+				hasStart = true;
+			if (pomodoro.getRandom()==end)
+				hasEnd = true;
+		}
+		assertTrue(hasStart);
+		assertTrue(hasEnd);
+		
+	}
+	@Test
 	public void testArriveCheckin() throws Exception {
 		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", DEFAULT_SAVE_FILE_NAME);
 		p.execute("start");
 		assertTrue("2013-04-01 10:00:00".equals(p.getArriveTimeString()));
 	}
 	
+	@Test
+	//TODO refactor
+	public void testArriveCheckinShortHand() throws Exception {
+		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", DEFAULT_SAVE_FILE_NAME);
+		p.execute("s");
+		assertTrue("2013-04-01 10:00:00".equals(p.getArriveTimeString()));
+	}
 	@Test
 	public void testArriveCheckinSave() throws Exception {
 		PomodoroWork p = createPomodoroByParseDate("2013-04-01 10:00:00", DEFAULT_SAVE_FILE_NAME);

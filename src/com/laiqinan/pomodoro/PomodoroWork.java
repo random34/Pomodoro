@@ -239,23 +239,23 @@ public class PomodoroWork {
 	}
 
 	private boolean isStartCommand(String verb) {
-		return verb.equals("start");
+		return "start".equals(verb)||"s".equals(verb);
 	}
 
 	private boolean isRandomCommand(String verb) {
-		return verb.equals("random");
+		return "random".equals(verb) || "r".equals(verb);
 	}
 
 	private boolean isRestCommand(String verb) {
-		return verb.equals("rest");
+		return "rest".equals(verb);
 	}
 
 	private boolean isAddCommand(String verb) {
-		return verb.equals("add");
+		return "add".equals(verb) || "a".equals(verb);
 	}
 
 	private boolean isTimeCommand(String verb) {
-		return verb.equals(TIME_STRING);
+		return TIME_STRING.equals(verb)|| "t".equals(verb);
 	}
 
 	private void checkArgumentsSize(String[] parameters, int size,
