@@ -25,15 +25,6 @@ public class PomodoroWorkTest {
 		pomodoro = new PomodoroWork(DEFAULT_SAVE_FILE_NAME);
 	}
 
-//	@Test
-//	public void testFileRead() throws Exception{
-//		PomodoroWork p = createPomodoroByParseDate("2013-03-13 08:00:00", "save_testFileRead.txt");
-//		assertEquals(p.getTomato(),4);
-//		assertEquals(p.getLeftTime(),0);
-//		assertEquals(p.getTime(),100);
-////		assertEquals(p.getRest(),60);
-//	}
-
 	private PomodoroWork createPomodoroByParseDate(String dateStr, String fileName) throws ParseException {
 		DateProvider dp = new DateProvider();
 		dp.setProvideCurrentDate(false);
@@ -112,17 +103,6 @@ public class PomodoroWorkTest {
 		assertEquals(leftTime,nL);
 		assertTrue(nT-time==75);
 	}
-//	@Test 
-//	public void testRest(){
-//		String [] parameters = {"rest","25"};
-//		int t = pomodoro.getTime();
-//		int r = pomodoro.getRest();
-//		pomodoro.execute(parameters);
-//		int nt = pomodoro.getTime();
-//		int nr = pomodoro.getRest();
-//		assertEquals(t,nt);
-//		assertTrue(r+25==nr);
-//	}
 	
 	@Test
 	public void testOneStringCommand() throws Exception {
@@ -145,20 +125,16 @@ public class PomodoroWorkTest {
 	@Test
 	public void testFileWrite() throws Exception {
 		int t = pomodoro.getTime();
-//		int r = pomodoro.getRest();
 		pomodoro.execute("add 1");
 		PomodoroWork npw = new PomodoroWork(DEFAULT_SAVE_FILE_NAME);
 		int nt = npw.getTime();
-//		int nr = npw.getRest();
 		assertTrue(nt-t==25);
-//		assertEquals(nr,r);
 	}
 	
 	@Test
 	public void testNewDayRollback() throws Exception {
 		PomodoroWork yesterday = new PomodoroWork("pomodoro-data/save_yesterday.properties");
 		assertTrue(yesterday.getTime()==0);
-//		assertTrue(yesterday.getRest()==0);
 	}
 	
 	@Test
@@ -191,16 +167,6 @@ public class PomodoroWorkTest {
 			assertTrue(e instanceof IllegalArgumentException);
 		}
 	}
-	
-//	@Test
-//	public void testIllegalRestArguments() throws Exception {
-//		try {
-//			pomodoro.execute("rest 1 2 3 4");
-//			fail("Didnot throw exception");
-//		} catch (Exception e) {
-//			assertTrue(e instanceof IllegalArgumentException);
-//		}
-//	}
 	
 	@Test
 	public void testIllegalTimeArguments() throws Exception {

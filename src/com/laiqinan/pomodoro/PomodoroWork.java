@@ -52,14 +52,6 @@ public class PomodoroWork {
 
 	private int time;
 
-//	public int getRest() {
-//		return rest;
-//	}
-//
-//	public void setRest(int rest) {
-//		this.rest = rest;
-//	}
-
 	private int random = 0;
 
 	public PomodoroWork(String fileName) {
@@ -128,7 +120,6 @@ public class PomodoroWork {
 			pw.println(formatDateProvider());
 			pw.println(getTomato());
 			pw.println(getLeftTime());
-//			pw.println(getRest());
 			pw.println(arriveDateString);
 			pw.close();
 		} catch (FileNotFoundException e) {
@@ -184,12 +175,10 @@ public class PomodoroWork {
 			if (DateUtils.isSameDay(lastOpenDate, current)) {
 				int tomato = scanner.nextInt();
 				int leftTime = scanner.nextInt();
-//				rest = scanner.nextInt();
 				time = tomato * 25 + leftTime;
 				scanner.nextLine();
 				arriveDateString = scanner.nextLine();
 			} else {
-//				rest = 0;
 				time = 0;
 			}
 		} catch (FileNotFoundException e) {
@@ -214,11 +203,6 @@ public class PomodoroWork {
 			int addTomato = Integer.parseInt(parameters[1]);
 			time += addTomato * 25;
 		} 
-//		else if (isRestCommand(verb)) {
-//			checkArgumentsSize(parameters, 2, "rest need one argument");
-//			int nr = Integer.parseInt(parameters[1]);
-//			rest += nr;
-//		} 
 		else if (verb.equals("-") || verb.equals("print")) {
 
 		} else if (isRandomCommand(verb)) {
@@ -247,10 +231,6 @@ public class PomodoroWork {
 		return "random".equals(verb) || "r".equals(verb);
 	}
 
-//	private boolean isRestCommand(String verb) {
-//		return "rest".equals(verb);
-//	}
-
 	private boolean isAddCommand(String verb) {
 		return "add".equals(verb) || "a".equals(verb);
 	}
@@ -278,14 +258,12 @@ public class PomodoroWork {
 
 	@Override
 	public String toString() {
-//		return "PomodoroWork [time=" + time + ", rest=" + rest + "]";
 		return "PomodoroWork [time=" + time + "]";
 	}
 
 	public void print() {
 		System.out.println("tomato:\t\t" + getTomato());
 		System.out.println("left time:\t" + getLeftTime());
-//		System.out.println("rest :\t\t" + getRest());
 		System.out
 				.println("current production rate: \t" + getProductionScore());
 		System.out.println("arrive time: " + arriveDateString);
