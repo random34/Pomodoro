@@ -223,19 +223,19 @@ public class PomodoroWork {
 		write();
 	}
 
-	private boolean isStartCommand(String verb) {
+	public static boolean isStartCommand(String verb) {
 		return "start".equals(verb)||"s".equals(verb);
 	}
 
-	private boolean isRandomCommand(String verb) {
+	public static boolean isRandomCommand(String verb) {
 		return "random".equals(verb) || "r".equals(verb);
 	}
 
-	private boolean isAddCommand(String verb) {
+	public static boolean isAddCommand(String verb) {
 		return "add".equals(verb) || "a".equals(verb);
 	}
 
-	private boolean isTimeCommand(String verb) {
+	public static boolean isTimeCommand(String verb) {
 		return TIME_STRING.equals(verb)|| "t".equals(verb);
 	}
 

@@ -34,7 +34,7 @@ public class CommandLineInterface {
 
 		PomodoroWork po = new PomodoroWork(FILE_NAME);
 		po.execute(args);
-		if (args[0].equals("random")) {
+		if (PomodoroWork.isRandomCommand(args[0])) {
 			System.out.println("Generated random number:  " + po.getRandom());
 		} else {
 			po.print();
