@@ -20,8 +20,6 @@ public class PomodoroWork {
 
 	private static final String PROPERTIES = ".properties";
 
-	private static final String TXT = ".txt";
-
 	private static final String LAST_SAVE_TIME = "lastSaveTime";
 
 	private static final String NOT_BEEN_SET = "NOT BEEN SET";
@@ -95,9 +93,7 @@ public class PomodoroWork {
 	}
 
 	private void write() {
-		if (file.getName().endsWith(TXT))
-			writeToTxt();
-		else if (file.getName().endsWith(PROPERTIES))
+		if (file.getName().endsWith(PROPERTIES))
 			writeToProperties();
 	}
 
@@ -114,24 +110,12 @@ public class PomodoroWork {
 
 	}
 
-	private void writeToTxt() {
-		try {
-			PrintWriter pw = new PrintWriter(file.getName());
-			pw.println(formatDateProvider());
-			pw.println(getTomato());
-			pw.println(getLeftTime());
-			pw.println(arriveDateString);
-			pw.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private void read() {
-		if (file.getName().endsWith(TXT))
-			readFromTxt();
-		else if (file.getName().endsWith(PROPERTIES))
+		if (file.getName().endsWith(PROPERTIES))
 			readFromProperties();
+		else {
+			throw new RuntimeException("unsupported file type");
+		}
 	}
 
 	private void readFromProperties() {
@@ -160,33 +144,6 @@ public class PomodoroWork {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-
-	private void readFromTxt() {
-		Scanner scanner = null;
-		try {
-			scanner = new Scanner(file);
-			String lastOpenDateString = scanner.nextLine();
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-					PomodoroWork.DATE_FORMAT);
-			Date lastOpenDate = simpleDateFormat.parse(lastOpenDateString);
-			Date current = dateProvider.getDate();
-			if (DateUtils.isSameDay(lastOpenDate, current)) {
-				int tomato = scanner.nextInt();
-				int leftTime = scanner.nextInt();
-				time = tomato * 25 + leftTime;
-				scanner.nextLine();
-				arriveDateString = scanner.nextLine();
-			} else {
-				time = 0;
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} finally {
-			scanner.close();
 		}
 	}
 
